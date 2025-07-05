@@ -95,7 +95,7 @@ class TreeedGroup extends TreeedUpdatable<TreeedGroup> {
 
   void _theHolyUpdatingWrapper(dynamic _) => _triggerUpdating(this);
 
-  /// `treeedState<T>` function that constructs the TreeedState<T> and automatically subscribes the group to it's updates.
+  /// `treeedState<T>` function that constructs the `TreeedState<T>` and automatically subscribes the group to it's updates.
   /// ---
   /// `initValue`: initial value of the constructed state.
   /// `firstListener`: function that will be additionally added to the state's listeners list.
@@ -109,9 +109,15 @@ class TreeedGroup extends TreeedUpdatable<TreeedGroup> {
     return state;
   }
 
+  /// Shortening for `treeedState<T>`.
+  late final ts = treeedState;
+
   /// `treeedGroup<T>` acts like `treeedState<T>` but constructing the inner group of that group.
   T treeedGroup<T extends TreeedGroup>(T group) =>
       group..listen(_theHolyUpdatingWrapper);
+
+  /// Shortening for `treeedGroup<T>`.
+  late final tg = treeedGroup;
 
   @override
   void listen(void Function(TreeedGroup) fn) {
