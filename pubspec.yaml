@@ -1,6 +1,6 @@
 name: treeed
 description: A Dart minimalistic state manager.
-version: 0.0.2
+version: 0.0.3
 repository: https://github.com/marat0n/treeed
 
 environment:
