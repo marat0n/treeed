@@ -11,9 +11,7 @@ dev_dependencies:
   test: ^1.24.0
 
 topics:
-  - state
   - state-manager
-  - state-managment
   - architecture-agnostic
   - treeed
   - tree-based-state
