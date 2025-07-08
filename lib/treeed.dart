@@ -56,6 +56,7 @@ abstract class TreeedUpdatable<T> {
 /// myValue.listen(subscribingfn); // Subscribing to events.
 ///
 /// myValue.set(42); // Setting new value to the state. All listeners will be called at this point.
+/// myValue.quietSet(24); // Setting new value to the state but no listeners will be called.
 ///
 /// myValue.unlisten(subscribingfn); // Unsubscribing from updates.
 /// ```
@@ -64,11 +65,18 @@ class TreeedState<T> extends TreeedUpdatable<T> {
 
   T _value;
 
+  /// Returns the stored value.
   T get get => _value;
 
+  /// Updating the stored value and calling all listeners.
   void set(T value) {
     _value = value;
     _triggerUpdating(value);
+  }
+
+  /// Updating the stored value but without calling any listeners.
+  void quietSet(T value) {
+    _value = value;
   }
 
   @override
