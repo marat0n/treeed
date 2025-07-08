@@ -41,6 +41,9 @@ abstract class TreeedUpdatable<T> {
       keyFn(newValue);
     }
   }
+
+  /// Clears everything.
+  void dispose() => _listeners.clear();
 }
 
 /// Treeed state value wrapper. Use it for wrapping a value you want to observe with updating events.
