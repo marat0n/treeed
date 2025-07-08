@@ -1,3 +1,8 @@
+## 0.0.4
+Added:
+- `TreeedUpdatable :: dispose`, the cleaning method;
+- `TreeedState :: quietSet` method that updates value without notifying any listeners.
+
 ## 0.0.3
 Added:
 - `TreeedGroup :: ts`, the shortening for `TreeedGroup :: treeedState`;
