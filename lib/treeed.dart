@@ -26,10 +26,10 @@
 /// }
 /// ```
 abstract class TreeedUpdatable<T> {
-  /// Adds the `fn` function to listeners list.
+  /// Adds the `fn` function to the listeners list.
   void listen(void Function(T) fn);
 
-  /// Removes the `fn` function from listeners list.
+  /// Removes the `fn` function from the listeners list.
   void unlisten(void Function(T) fn);
 
   final _listeners = List<void Function(T)>.empty(growable: true);
@@ -47,20 +47,21 @@ abstract class TreeedUpdatable<T> {
 }
 
 /// Treeed state value wrapper. Use it for wrapping a value you want to observe with updating events.
-/// Example:
-/// ```dart
-/// final myValue = TreeedState(0); // Initializing the state with value `0`.
-/// print(myValue.get); // Reading the wrapped value in the state.
-///
-/// final subscribingFn = (newValue) => print(newValue);
-/// myValue.listen(subscribingfn); // Subscribing to events.
-///
-/// myValue.set(42); // Setting new value to the state. All listeners will be called at this point.
-/// myValue.quietSet(24); // Setting new value to the state but no listeners will be called.
-///
-/// myValue.unlisten(subscribingfn); // Unsubscribing from updates.
-/// ```
 class TreeedState<T> extends TreeedUpdatable<T> {
+  /// Treeed state value wrapper. Use it for wrapping a value you want to observe with updating events.
+  /// Example:
+  /// ```dart
+  /// final myValue = TreeedState(0); // Initializing the state with value `0`.
+  /// print(myValue.get); // Reading the wrapped value in the state.
+  ///
+  /// final subscribingFn = (newValue) => print(newValue);
+  /// myValue.listen(subscribingfn); // Subscribing to events.
+  ///
+  /// myValue.set(42); // Setting new value to the state. All listeners will be called at this point.
+  /// myValue.quietSet(24); // Setting new value to the state but no listeners will be called.
+  ///
+  /// myValue.unlisten(subscribingfn); // Unsubscribing from updates.
+  /// ```
   TreeedState(T value) : _value = value;
 
   T _value;
@@ -97,12 +98,16 @@ class TreeedState<T> extends TreeedUpdatable<T> {
 ///     // Use function `treeedState` for automatically subscribe the group to updates of this state.
 ///     late final someAutoSubscribedByGroupState = treeedState(0);
 ///
+///     // ts = treeedState.
+///     late final shorterWay = ts(0);
+///
 ///     // Use the `TreeedState` class constructor for creating simple value state.
 ///     final someSimpleState = TreeedState(42);
 /// }
 /// ```
 class TreeedGroup extends TreeedUpdatable<TreeedGroup> {
-  TreeedGroup() : super();
+  /// Constructor of `TreeedGroup`. It's not the common way to use this type, try to extending it by your class.
+  TreeedGroup();
 
   void _theHolyUpdatingWrapper(dynamic _) => _triggerUpdating(this);
 
@@ -140,5 +145,6 @@ class TreeedGroup extends TreeedUpdatable<TreeedGroup> {
     _listeners.remove(fn);
   }
 
+  /// Triggering an update event for that specific group without triggering any inner states.
   void triggerUpdate() => _triggerUpdating(this);
 }
