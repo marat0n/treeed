@@ -1,3 +1,6 @@
+## 0.0.5
+Improved documentation + minor fixes
+
 ## 0.0.4
 Added:
 - `TreeedUpdatable :: dispose`, the cleaning method;
