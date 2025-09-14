@@ -7,7 +7,7 @@ void main() {
 
 void treeedStateTests() {
   test('TreeedState updates listeners on `set` invokations.', () {
-    final state = TreeedState(0);
+    final state = TState(0);
     var gotNewVal = false;
 
     state.listen((_) => gotNewVal = true);
@@ -18,7 +18,7 @@ void treeedStateTests() {
   });
 
   test('TreeedState updated value is stored correctly.', () {
-    final state = TreeedState(0);
+    final state = TState(0);
     expect(state.get, equals(0));
 
     state.set(1);
@@ -32,7 +32,7 @@ void treeedStateTests() {
   });
 
   test('TreeedState unlistens the observer-function.', () {
-    final state = TreeedState(0);
+    final state = TState(0);
     var updatingToggler = false;
 
     observer(_) => updatingToggler = !updatingToggler;
@@ -49,7 +49,7 @@ void treeedStateTests() {
   });
 
   test('TreeedState provides correct new value for listenres (observers).', () {
-    final state = TreeedState(0);
+    final state = TState(0);
     state.listen((int newVal) => expect(newVal, equals(state.get)));
     state.set(1);
     state.dispose();
@@ -58,7 +58,7 @@ void treeedStateTests() {
   test(
     'TreeedState.when observation runs the provided action whenever the provided condition is returning true.',
     () {
-      final state = ConditionalTreeedState(0);
+      final state = CTState(0);
       state.when((x) => x % 2 == 0, (x) => state.set(x + 1));
 
       state.set(1); // Does not call the action of `when` observer.
@@ -72,7 +72,7 @@ void treeedStateTests() {
   test(
     'TreeedState.whenEqual observation runs the provided action whenever the provided constant value is equal to a new updated value',
     () {
-      final state = ConditionalTreeedState(0);
+      final state = CTState(0);
       state.whenEquals(2, () => state.set(3));
 
       state.set(1); // Does not call the action.
