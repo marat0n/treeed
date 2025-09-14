@@ -51,6 +51,7 @@ void treeedStateTests() {
   test('TreeedState provides correct new value for listenres (observers).', () {
     final state = TreeedState(0);
     state.listen((int newVal) => expect(newVal, equals(state.get)));
+    state.set(1);
     state.dispose();
   });
 }
