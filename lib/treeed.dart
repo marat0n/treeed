@@ -1,5 +1,10 @@
 import 'dart:collection';
 
+typedef TUpdatable<T> = TreeedUpdatable<T>;
+typedef TState<T> = TreeedState<T>;
+typedef CTState<T> = ConditionalTreeedState<T>;
+typedef TGroup = TreeedGroup;
+
 /// Base class for any updatable state model in Treeed.
 /// ---
 /// If you wish to create your own state-managing behavior based on this class then use inheritance, like that:
