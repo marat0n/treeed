@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 /// Base class for any updatable state model in Treeed.
 /// ---
 /// If you wish to create your own state-managing behavior based on this class then use inheritance, like that:
@@ -88,6 +90,49 @@ class TreeedState<T> extends TreeedUpdatable<T> {
   @override
   void unlisten(void Function(T) fn) {
     _listeners.remove(fn);
+  }
+}
+
+/// Special variant of `TreeedState` type with new methods `when` and `whenEquals`.
+class ConditionalTreeedState<T> extends TreeedState<T> {
+  /// Creates a new instance of `ConditionalTreeedState` which is a special variant of `TreeedState`.
+  /// It adds new methods:
+  ///   - `when`, which helps observing conditional state;
+  ///   - `whenEquals`, which maps provided constant values and watches if the new updated value is equal to one of them to call matching actions.
+  /// Example:
+
+  ConditionalTreeedState(super.value);
+
+  final _valuesMapper = HashMap<T, List<void Function()>>();
+
+  @override
+  void set(T value) {
+    super.set(value);
+    for (var fn in _valuesMapper[value] ?? []) {
+      fn();
+    }
+  }
+
+  /// Creates an immortal observer of the value and calls the `action` if `condition` returns `true`.
+  /// ---
+  /// If your `condition` is a simple equality expression with a constant value then use `whenEqual` which is optimizied for that case.
+  void when(bool Function(T) condition, void Function(T) action) {
+    _listeners.add((value) {
+      if (condition(value)) action(value);
+    });
+  }
+
+  /// Creates an immortal observer of the value and calls the `action` if wrapped value is equal to a provided constant value.
+  void whenEquals(T value, void Function() action) => _valuesMapper.update(
+    value,
+    (list) => list..add(action),
+    ifAbsent: () => [action],
+  );
+
+  @override
+  void dispose() {
+    _valuesMapper.clear();
+    super.dispose();
   }
 }
 
