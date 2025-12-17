@@ -1,9 +1,15 @@
+## 0.1.1
+Minor fixes.
+Added:
+- Async updating triggers `TreeedState :: asyncSet` and `TreeedState :: asyncTrigger` (also available for `ConditionalTreeedState`);
+- Async updating trigger `TreeedGroup :: asyncTriggerUpdate`.
+
 ## 0.1.0
 Added:
 - `ConditionalTreeedState` type that extends `TreeedState` with `when` and `whenEquals` methods;
 - `ConditionalTreeedState :: when` method that wraps provided action by provided condition and adds it to the state listeners list;
 - `ConditionalTreeedState :: whenEquals` method that fires the provided actions when provided constant value equals to state's value;
-- Typedefs (aliases): TState for TreeedState, TGroup for TreeedGroup, CTState for ConditionalTreeedState, TUpdatable for TreeedUpdatable;
+- Typedefs (aliases): TState for TreeedState, TGroup for TreeedGroup, CTState for ConditionalTreeedState, TUpdatable for TreeedUpdatable.
 
 ## 0.0.5
 Improved documentation + minor fixes

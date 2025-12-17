@@ -70,7 +70,7 @@ void treeedStateTests() {
   );
 
   test(
-    'TreeedState.whenEqual observation runs the provided action whenever the provided constant value is equal to a new updated value',
+    'TreeedState.whenEqual observation runs the provided action whenever the provided constant value is equal to a new updated value.',
     () {
       final state = CTState(0);
       state.whenEquals(2, () => state.set(3));
@@ -82,4 +82,21 @@ void treeedStateTests() {
       expect(state.get, equals(3));
     },
   );
+
+  test('TreeedState.setAsync method can be paralleled.', () {
+    final state = TState("initial");
+
+    () async {
+      await Future.delayed(Duration(seconds: 1)); // Doing some work.
+      expect(
+        state.get,
+        equals("non-async"),
+      ); // The non-async block (after that Future block) must set 2 to the `state` before 1 second lasts.
+      await state.asyncSet("async");
+      expect(state.get, equals("async"));
+    }().onError((err, stack) => throw err ?? Error());
+
+    state.set("non-async");
+    expect(state.get, equals("non-async"));
+  });
 }

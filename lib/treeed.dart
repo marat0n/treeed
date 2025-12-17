@@ -42,10 +42,8 @@ abstract class TreeedUpdatable<T> {
   final _listeners = List<void Function(T)>.empty(growable: true);
 
   void _triggerUpdating(T newValue) {
-    var listenersSize = _listeners.length;
-    for (int i = 0; i < listenersSize; ++i) {
-      final keyFn = _listeners[i];
-      keyFn(newValue);
+    for (var fn in _listeners) {
+      fn(newValue);
     }
   }
 
@@ -86,6 +84,18 @@ class TreeedState<T> extends TreeedUpdatable<T> {
   void quietSet(T value) {
     _value = value;
   }
+
+  /// The same as `set` function but you can await it.
+  Future<void> asyncSet(T value) async {
+    _value = value;
+    _triggerUpdating(value);
+  }
+
+  /// Triggers an updating for all listeners and providing actual value to them;
+  void trigger() => _triggerUpdating(_value);
+
+  /// The same as `trigger` function but you can await it.
+  Future<void> asyncTrigger() async => _triggerUpdating(_value);
 
   @override
   void listen(void Function(T) fn) {
@@ -197,4 +207,7 @@ class TreeedGroup extends TreeedUpdatable<TreeedGroup> {
 
   /// Triggering an update event for that specific group without triggering any inner states.
   void triggerUpdate() => _triggerUpdating(this);
+
+  /// The same as `triggerUpdate` function but you can await it.
+  Future<void> asyncTriggerUpdate() async => _triggerUpdating(this);
 }
